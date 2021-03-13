@@ -14,7 +14,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
-                            <button type="button" class="btn btn-info btn-xs " id="categorybutton" data-toggle="modal" data-target="#category" >Create new</button>
+                            <button type="button" class="btn btn-info btn-xs " id="categorybutton" data-toggle="modal" data-target="#cuisine" >Create new</button>
                         </h6>
                     </div>
                     <div class="card-body">
@@ -23,7 +23,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Type</th>
+                                        <th>Category</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -31,24 +31,24 @@
                                 <tfoot>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Type</th>
+                                        <th>Category</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    @foreach($category as $k => $v)                                   
+                                    @foreach($cuisine as $k => $v)                                   
                                         <tr>
                                             <td>{{ $v->name }}</td>
-                                            <td>{{ App\Models\Category::getType($v->type) }}</td>
+                                            <td>{{ $v->getBelongedCategory->name }}</td>
                                             <td>{{ ($v->status == 1) ? 'Active' : 'In Active' }}</td>
                                             <td>
                                                 <ul class="noliststyle">
                                                     <li>
-                                                        <a href="{{ route('change.status' , $v->id) }}" class="{{ ($v->status == 1) ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-primary' }}" >{{ ($v->status == 1) ? 'Deactivate' : 'Activate' }}</a>
+                                                        <a href="{{ route('cuisine.change.status' , $v->id) }}" class="{{ ($v->status == 1) ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-primary' }}" >{{ ($v->status == 1) ? 'Deactivate' : 'Activate' }}</a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ route('delete.category' , $v->id) }}" onclick="return confirm('Are you sure ?')" class="btn-sm btn btn-danger">Delete</a>
+                                                        <a href="{{ route('delete.cuisine' , $v->id) }}" onclick="return confirm('Are you sure ?')" class="btn-sm btn btn-danger">Delete</a>
                                                     </li>
                                                 </ul>
                                             </td>

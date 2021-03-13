@@ -29,6 +29,14 @@
                     <span>Category list</span>
                 </a>
             </li>
+            <hr class="sidebar-divider">
+
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ route('cuisine.index') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Cuisine list</span>
+                </a>
+            </li>
 
         </ul>
         <!-- End of Sidebar -->

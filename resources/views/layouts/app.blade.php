@@ -58,10 +58,28 @@
             color: red;
 
         }
+        .success{
+            background: green;
+            border-radius: 10px;
+            color: white;
+            width: auto;
+            position: absolute;
+            right: 15px;
+            top: 10px !important;
+            z-index: 9999;
+            box-shadow: 0px 8px 21px 0px green;
+        }
+        .noliststyle{
+            list-style: none;
+            display: inline-block;
+        }
+        .noliststyle li{
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
-
+    
     
     <div id="category" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -75,16 +93,23 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
+                                @php
+
+                                    $catType = old('categorytype');
+                                    if( $catType == null ){
+                                        $catType = [];
+                                    }   
+                                @endphp
                                 <ul class="producttype">
                                     <li>
                                        <label>
-                                            <input type="checkbox" name="categorytype[]" class="form-control form-control-user" value="1">
+                                            <input type="checkbox" {{ (in_array( '1' ,$catType )) ? 'checked' : ''  }} name="categorytype[]" class="form-control form-control-user" value="1">
                                             <span style="line-height: 2;margin-left: 9px">Veg</span>
                                         </label>
                                     </li>
                                     <li>
                                         <label>
-                                            <input type="checkbox" name="categorytype[]" class="form-control form-control-user" value="2"><span style="line-height: 2;margin-left: 9px">Non-Veg</span>
+                                            <input type="checkbox" {{ (in_array( '2' ,$catType )) ? 'checked' : ''  }} name="categorytype[]" class="form-control form-control-user" value="2"><span style="line-height: 2;margin-left: 9px">Non-Veg</span>
                                         </label>
                                     </li>
                                 </ul>
@@ -93,7 +118,7 @@
                                 @endif
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="categoryname" id="exampleLastName" placeholder="Category">
+                                <input type="text" class="form-control form-control-user" name="categoryname" value="{{ old('categoryname') }}" id="exampleLastName" placeholder="Category">
                                 @if( $errors->has('categoryname') )
                                     <span class="validationerror"> Category is required</span>
                                 @endif
@@ -112,18 +137,126 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title">Add Cuisine</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <form class="user" method="POST" action="{{ route('save.new.cuisine') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label>
+                                    <select name="category" class="form-control">
+                                        @foreach( App\Models\Category::getActiveCategory() as $k => $v )
+                                            <option value="{{ $k }}"> {{ ucfirst($v) }} </option>
+                                        @endforeach
+                                    </select>
+                                </label>
+                                @if( $errors->has('category') )
+                                    <span class="validationerror"> Category is required.</span>
+                                @endif
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="cuisinename" value="{{ old('cuisinename') }}" id="exampleLastName" placeholder="Category">
+                                @if( $errors->has('cuisinename') )
+                                    <span class="validationerror"> Cuisine is required</span>
+                                @endif
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Add new Category
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div id="product" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Product</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="user" method="POST" action="{{ route('save.new.cuisine') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-12 mb-sm-0">
+                                <ul class="producttype">
+                                    <li>
+                                       <label>
+                                            <input type="checkbox" name="categorytype" class="form-control form-control-user" value="1">
+                                            <span style="line-height: 2;margin-left: 9px">Veg</span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="categorytype" class="form-control form-control-user" value="2"><span style="line-height: 2;margin-left: 9px">Non-Veg</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                                @if( $errors->has('categorytype') )
+                                    <span class="validationerror"> Category is required.</span>
+                                @endif
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <label>
+                                    <select name="category" class="form-control">
+                                        @foreach( App\Models\Category::getActiveCategory() as $k => $v )
+                                            <option value="{{ $k }}"> {{ ucfirst($v) }} </option>
+                                        @endforeach
+                                    </select>
+                                </label>
+                                @if( $errors->has('category') )
+                                    <span class="validationerror"> Category is required.</span>
+                                @endif
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label>
+                                    <select name="category" class="form-control">
+                                        @foreach( App\Models\Category::getActiveCategory() as $k => $v )
+                                            <option value="{{ $k }}"> {{ ucfirst($v) }} </option>
+                                        @endforeach
+                                    </select>
+                                </label>
+                                @if( $errors->has('category') )
+                                    <span class="validationerror"> Category is required.</span>
+                                @endif
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="cuisinename" value="{{ old('cuisinename') }}" id="exampleLastName" placeholder="Category">
+                                @if( $errors->has('cuisinename') )
+                                    <span class="validationerror"> Cuisine is required</span>
+                                @endif
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Add new Category
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -159,4 +292,35 @@
             })
         </script>
     @endif 
+    @if( $errors->first('category') || $errors->first('cuisinename') )
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#cuisine').modal('show')
+            })
+        </script>
+    @endif 
+    @if(Session::has('success'))
+        <div class="alert success">
+            <span>Data save successfully</span>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                setTimeout(function(){
+                    $('.success').fadeOut();
+                } , 2000)         
+            });
+        </script>
+    @endif
+    @if(Session::has('error'))
+        <div class="alert error">
+            <span>Data save successfully</span>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                setTimeout(function(){
+                    $('.error').fadeOut();
+                } , 2000)
+            });
+        </script>
+    @endif
 </html>

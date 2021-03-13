@@ -69,9 +69,10 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-3 col-md-6 mb-4 productclick">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
+                        <button type="button" class="btn btn-info btn-xs " id="productbutton" data-toggle="modal" data-target="#product" style="display: none;">Open Modal</button>
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
@@ -96,6 +97,9 @@
             });
             $('.cuisineclick').click(function(){
                 document.getElementById('cuisinebutton').click();
+            });
+            $('.productclick').click(function(){
+                document.getElementById('productbutton').click();
             });
         });
     </script>
