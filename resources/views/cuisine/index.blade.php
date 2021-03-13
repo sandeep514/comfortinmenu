@@ -37,10 +37,11 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>
+                                    {{-- @dd($cuisine) --}}
                                     @foreach($cuisine as $k => $v)                                   
                                         <tr>
                                             <td>{{ $v->name }}</td>
-                                            <td>{{ $v->getBelongedCategory->name }}</td>
+                                            <td>{{  (is_null($v->getBelongedCategory)) ? "" : $v->getBelongedCategory->name }}</td>
                                             <td>{{ ($v->status == 1) ? 'Active' : 'In Active' }}</td>
                                             <td>
                                                 <ul class="noliststyle">

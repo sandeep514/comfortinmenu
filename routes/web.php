@@ -39,5 +39,15 @@ Route::group(['prefix' => 'cuisine'], function () {
 });
 
 
+Route::group(['prefix' => 'product'], function () {
+    Route::get('/list', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
+    Route::get('create/new', [App\Http\Controllers\ProductController::class, 'create'])->name('create.new.product');
+    Route::post('save/new', [App\Http\Controllers\ProductController::class, 'save'])->name('save.new.product');
+    Route::get('delete{id}', [App\Http\Controllers\ProductController::class, 'delete'])->name('delete.product');
+    Route::get('change/status/{id}', [App\Http\Controllers\ProductController::class, 'changeStatus'])->name('product.change.status');
+});
+
+
+
 Route::get('get/category/by/type/{type}', [App\Http\Controllers\ProductController::class, 'getCategoryByType'])->name('get.change.type');
 Route::get('get/cuisine/by/type/{catId}', [App\Http\Controllers\ProductController::class, 'getCuisineByType'])->name('get.change.category');

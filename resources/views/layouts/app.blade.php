@@ -379,9 +379,9 @@
                             if($('input[name=productname]').val() == ''){
                                 $('.productname.validationerror').show();                                
                             }
-                            if($('textarea[name=productdesc]').val() == ''){
-                                $('.productdesc.validationerror').show();
-                            }
+                            // if($('textarea[name=productdesc]').val() == ''){
+                            //     $('.productdesc.validationerror').show();
+                            // }
                             if($('input[name=productRating]').val() == ''){
                                 $('.productRaiting.validationerror').show();
                             }
