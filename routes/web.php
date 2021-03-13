@@ -21,10 +21,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 Route::group(['prefix' => 'category'], function () {
     Route::get('/list', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
@@ -41,3 +37,7 @@ Route::group(['prefix' => 'cuisine'], function () {
     Route::get('delete{id}', [App\Http\Controllers\CuisineController::class, 'delete'])->name('delete.cuisine');
     Route::get('change/status/{id}', [App\Http\Controllers\CuisineController::class, 'changeStatus'])->name('cuisine.change.status');
 });
+
+
+Route::get('get/category/by/type/{type}', [App\Http\Controllers\ProductController::class, 'getCategoryByType'])->name('get.change.type');
+Route::get('get/cuisine/by/type/{catId}', [App\Http\Controllers\ProductController::class, 'getCuisineByType'])->name('get.change.category');
