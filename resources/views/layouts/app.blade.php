@@ -76,6 +76,9 @@
         .noliststyle li{
             display: inline-block;
         }
+        .displaynone{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -198,68 +201,57 @@
                                         </label>
                                     </li>
                                 </ul>
-                                @if( $errors->has('categorytype') )
-                                    <span class="validationerror"> Category is required.</span>
-                                @endif
+                                <span class="type validationerror displaynone" > Please select veg or non-veg first to continue.</span>
                             </div>
 
 
-                            <div class="col-md-12">
+                            <div class="col-md-12 categorydiv" style="display: none;">
                                 <label>
                                     <select name="category" class="form-control">
-                                        @foreach( App\Models\Category::getActiveCategory() as $k => $v )
-                                            <option value="{{ $k }}"> {{ ucfirst($v) }} </option>
-                                        @endforeach
+                                        <option value="0">Please select Category </option>
                                     </select>
                                 </label>
-                                @if( $errors->has('category') )
-                                    <span class="validationerror"> Category is required.</span>
-                                @endif
+                                    <span class="cat validationerror displaynone"> Category field is required.</span>
                             </div>
-                            
-                            <div class="col-md-12">
+
+                            <div class="col-md-12 cuisine" style="display: none;">
                                 <label>
-                                    <select name="category" class="form-control">
-                                        @foreach( App\Models\Category::getActiveCategory() as $k => $v )
-                                            <option value="{{ $k }}"> {{ ucfirst($v) }} </option>
-                                        @endforeach
+                                    <select name="cuisine" class="form-control">
+                                        <option value="0">Please select cuisine </option>
                                     </select>
                                 </label>
-                                @if( $errors->has('category') )
-                                    <span class="validationerror"> Category is required.</span>
-                                @endif
+                                    <span class="cuisine validationerror displaynone"> Cuisine field is required.</span>
                             </div>
 
 
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="cuisinename" value="{{ old('cuisinename') }}" id="exampleLastName" placeholder="Category">
-                                @if( $errors->has('cuisinename') )
-                                    <span class="validationerror"> Cuisine is required</span>
-                                @endif
+                            <div class="col-sm-12 productDetails" style="display: none;">
+                                <div>
+                                    <label>Product Name</label>
+                                    <input type="text" class="form-control form-control-user" name="productname" value="{{ old('productname') }}" id="exampleLastName" placeholder="Product name">
+                                    <span class="productname displaynone validationerror">Product Name is Required </span>
+                                </div>
+                                <div>
+                                    <textarea class="form-control form-control-user" name="productdesc" value="{{ old('productdesc') }}" id="exampleLastName" placeholder="Description"></textarea>
+                                    <span class="productdesc displaynone validationerror">Product Description is required </span>
+                                </div>
+                                <div>
+                                    <input type="number" class="form-control form-control-user" name="productRating" value="{{ old('productRaiting') }}" id="exampleLastName" placeholder="Product Rating">
+                                    <span class="productRaiting displaynone validationerror">Product Rating is required </span>
+                                </div>
+                                <div>
+                                    <input type="number" class="form-control form-control-user" name="productPrice" value="{{ old('productPrice') }}" id="exampleLastName" placeholder="Product Price">
+                                    <span class="productPrice displaynone validationerror"> Product Price is required</span>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                            Add new Category
+                        <button type="button" class="btn btn-primary btn-user btn-block checkvalidation">
+                            Add new Product
                         </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <div id="app">
@@ -298,7 +290,8 @@
                 $('#cuisine').modal('show')
             })
         </script>
-    @endif 
+    @endif
+
     @if(Session::has('success'))
         <div class="alert success">
             <span>Data save successfully</span>
@@ -311,6 +304,7 @@
             });
         </script>
     @endif
+
     @if(Session::has('error'))
         <div class="alert error">
             <span>Data save successfully</span>
@@ -323,4 +317,88 @@
             });
         </script>
     @endif
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let type = '';
+            let category = '';
+            let cuisine = '';
+
+            $(document).on('change' , '#product input[name=categorytype]' , function(){
+                type = $(this).val();
+                $.ajax({
+                    url     : 'get/category/by/type/'+type,
+                    method  : 'GET',
+                    success : function(success){
+                        $('.categorydiv').show();
+                        if( success.length > 0 ){
+                            for (var i = 0;i < success.length; i++) {
+                                $('#product select[name=category]').append('<option value="'+success[i].id+'">'+success[i].name+'</option>');
+                            }
+                        }else{
+                            alert('No Category available');
+                        }
+                    }
+                });
+            });
+
+            $(document).on('change' , '#product select[name=category]' , function(){
+                category = $(this).val();
+
+                $.ajax({
+                    url     : 'get/cuisine/by/type/'+category,
+                    method  : 'GET',
+                    success : function(success){
+                        $('.cuisine').show();
+                        if( success.length > 0 ){
+                            for (var i = 0;i < success.length; i++) {
+                                $('#product select[name=cuisine]').append('<option value="'+success[i].id+'">'+success[i].name+'</option>');
+                            }
+                        }else{
+                            alert('No Category available');
+                        }
+                    }
+                });
+            });
+
+            $(document).on('change' , '#product select[name=cuisine]' , function(){
+                cuisine = $(this).val();
+                $('.productDetails').show()
+            });
+
+            $('.checkvalidation').click(function(){
+                $('#product .validationerror').hide();
+                console.log(type);
+                console.log(category);
+                console.log(cuisine);
+                if( type != '' && type != 0){
+                    if( category != '' && category != 0){
+                        if( cuisine != '' && cuisine != 0){
+
+                            // product details
+                            if($('input[name=productname]').val() == ''){
+                                $('.productname.validationerror').show();                                
+                            }
+                            if($('textarea[name=productdesc]').val() == ''){
+                                $('.productdesc.validationerror').show();
+                            }
+                            if($('input[name=productRating]').val() == ''){
+                                $('.productRaiting.validationerror').show();
+                            }
+                            if($('input[name=productPrice]').val() == ''){
+                                $('.productPrice.validationerror').show();
+                            }
+                        }else{
+                            $('.cuisine.validationerror').show();
+                        }
+                    }else{
+                        $('.cat.validationerror').show()
+                    }
+                }else{
+                    $('.type.validationerror').show();
+                }
+            });
+
+       });
+    </script>
 </html>
