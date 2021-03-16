@@ -167,7 +167,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                            Add new Category
+                            Add new Cuisine
                         </button>
                     </form>
                 </div>
@@ -244,7 +244,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary btn-user btn-block checkvalidation">
+                        <button type="submit" class="btn btn-primary btn-user btn-block checkvalidation">
                             Add new Product
                         </button>
                     </form>

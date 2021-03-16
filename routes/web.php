@@ -47,7 +47,10 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('change/status/{id}', [App\Http\Controllers\ProductController::class, 'changeStatus'])->name('product.change.status');
 });
 
-
-
+// Routes for HomePAge
 Route::get('get/category/by/type/{type}', [App\Http\Controllers\ProductController::class, 'getCategoryByType'])->name('get.change.type');
 Route::get('get/cuisine/by/type/{catId}', [App\Http\Controllers\ProductController::class, 'getCuisineByType'])->name('get.change.category');
+
+// Routes for Product
+Route::get('product/get/category/by/type/{type}', [App\Http\Controllers\ProductController::class, 'getCategoryByType'])->name('get.change.type.product');
+Route::get('product/get/cuisine/by/type/{catId}', [App\Http\Controllers\ProductController::class, 'getCuisineByType'])->name('get.change.category.product');
