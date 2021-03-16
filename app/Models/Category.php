@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Cuisine;
 
 class Category extends Model
 {
@@ -21,5 +22,9 @@ class Category extends Model
     public static function getActiveCategory()
     {
     	return Self::where('status' , 1)->pluck('name' , 'id')->prepend('Please select category');
+    }
+    public function getCuisine()
+    {
+        return $this->hasMany(Cuisine::class , 'catId' , 'id');
     }
 }

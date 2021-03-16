@@ -51,3 +51,10 @@ Route::group(['prefix' => 'product'], function () {
 
 Route::get('get/category/by/type/{type}', [App\Http\Controllers\ProductController::class, 'getCategoryByType'])->name('get.change.type');
 Route::get('get/cuisine/by/type/{catId}', [App\Http\Controllers\ProductController::class, 'getCuisineByType'])->name('get.change.category');
+
+
+
+
+
+//frontend
+Route::get('menu/{type}' , [App\Http\Controllers\ProductController::class, 'getProductsForFrontend'])->name('get.product.data');

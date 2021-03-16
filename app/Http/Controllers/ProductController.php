@@ -63,4 +63,18 @@ class ProductController extends Controller
         Session::flash('success' , 'Status updated successfully');
         return back();
     }
+
+    public function getProductsForFrontend($type)
+    {
+        if( $type == 'veg' ){
+            $categoryType = 1;
+        }else{
+            $categoryType = 2;
+        }
+            $category = Category::where('type' , $categoryType)->where('status' , 1)->with(['getCuisine' => function($query){
+                return $query->with(['getBelongedProduct'])->where('status' , 1)->get();
+            }])->get();
+
+        return view('menu.vegitarian' , compact('category'));
+    }
 }

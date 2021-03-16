@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
+use App\Models\Product;
 
 class Cuisine extends Model
 {
@@ -16,5 +17,9 @@ class Cuisine extends Model
     public function getBelongedCategory()
     {
     	return $this->belongsTo(Category::class ,'catId' , 'id' );
+    }
+    public function getBelongedProduct()
+    {
+    	return $this->hasMany(Product::class ,'cuisineId' , 'id' );
     }
 }

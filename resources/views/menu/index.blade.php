@@ -52,12 +52,13 @@
     </div>
     
     <div class="buttons" style="margin-bottom: 5%;" align="center">
-      <a href="{{ route('vegitarian') }}" class="btn btn-success" id="vegitrian">Vegitrian</a>
+        <a href="{{ route('get.product.data' , 'veg') }}" class="btn btn-success" id="vegitrian">Vegetarian</a>
     </div>
+
     <div align="center">
-        <a href="{{ route('non.vegitarian') }}" class="btn btn-danger" id="nonVegitrian">Non Vegitrian</a>    
+        <a href="{{ route('get.product.data' , 'nonveg') }}" class="btn btn-danger" id="nonVegitrian" style="padding: 10px 30px;">Non Vegetarian</a>    
     </div>
- 
+
 </div>
 
 
