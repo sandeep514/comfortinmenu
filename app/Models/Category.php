@@ -17,14 +17,14 @@ class Category extends Model
 
     public static function getType($selectedtype)
     {
-    	return self::$cattype[$selectedtype];
+        return self::$cattype[$selectedtype];
     }
     public static function getActiveCategory()
     {
-    	return Self::where('status' , 1)->pluck('name' , 'id')->prepend('Please select category');
+        return Self::where('status', 1)->pluck('name', 'id')->prepend('Please select category');
     }
     public function getCuisine()
     {
-        return $this->hasMany(Cuisine::class , 'catId' , 'id');
+        return $this->hasMany(Cuisine::class, 'catId', 'id');
     }
 }

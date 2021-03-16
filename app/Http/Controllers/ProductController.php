@@ -6,75 +6,87 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Cuisine;
+use Session;
 
 class ProductController extends Controller
 {
-	public function getCategoryByType($type)
-	{
-		return Category::where('type' , $type)->get();
-	}
-	public function getCuisineByType($catId)
-	{
-		return Cuisine::where('catId' , $catId)->get();
-	}
+    public function getCategoryByType($type)
+    {
+        return Category::where('type', $type)->get();
+    }
+    public function getCuisineByType($catId)
+    {
+        return Cuisine::where('catId', $catId)->get();
+    }
 
 
 
     public function index()
     {
-        $cuisine = Product::with('getBelongedCategory')->get();
-    	return view('cuisine.index' , compact('cuisine'));
+        $products = Product::with('cuisine_rel', 'cuisine_rel.getBelongedCategory')->get();
+        return view('product.index', compact('products'));
     }
 
     public function create()
     {
-    	return view('cuisine.create');
+        return view('cuisine.create');
     }
 
     public function save(Request $request)
     {
-        $request->validate([
-            'category' => 'required|numeric|min:0|not_in:0',
-            'cuisinename' => 'required'
-        ]);
-		Product::create([ 'catId' => $request->category, 'name' => $request->cuisinename ,'status' => 1]);
-        Session::flash("success" , 'Cuisine Added successfully');
+        // dd($request->productdesc);
+        // $request->validate([
+        //     'category' => 'required|numeric|min:0|not_in:0',
+        //     'cuisinename' => 'required'
+        // ]);
+        // dd($request->category);
+        Product::create(
+            [
+            'productName' => $request->productname,
+            'productDesc' => $request->productdesc,
+            'productRating' => $request->productRating,
+            'productPrice' =>$request->productPrice,
+            'cuisineId' => $request->cuisine,
+            'status' => 1
+            ]
+        );
+        Session::flash("success", 'Cuisine Added successfully');
 
         return back();
     }
 
     public function delete($id)
     {
-        $cuisine = Product::where('id' , $id)->delete();
-        Session::flash('success' , 'Cuisine deleted succssfully');
+        $cuisine = Product::where('id', $id)->delete();
+        Session::flash('success', 'Cuisine deleted succssfully');
         return back();
     }
 
     public function changeStatus($id)
     {
-        $getCat = Product::where('id' , $id)->first();
-        if( $getCat != null ){
-            if( $getCat->status == 1 ){
-                Product::where('id' , $id)->update(['status' => 0]);
-            }else{
-                Product::where('id' , $id)->update(['status' => 1]);
+        $getCat = Product::where('id', $id)->first();
+        if ($getCat != null) {
+            if ($getCat->status == 1) {
+                Product::where('id', $id)->update(['status' => 0]);
+            } else {
+                Product::where('id', $id)->update(['status' => 1]);
             }
         }
-        Session::flash('success' , 'Status updated successfully');
+        Session::flash('success', 'Status updated successfully');
         return back();
     }
 
     public function getProductsForFrontend($type)
     {
-        if( $type == 'veg' ){
+        if ($type == 'veg') {
             $categoryType = 1;
-        }else{
+        } else {
             $categoryType = 2;
         }
-            $category = Category::where('type' , $categoryType)->where('status' , 1)->with(['getCuisine' => function($query){
-                return $query->with(['getBelongedProduct'])->where('status' , 1)->get();
-            }])->get();
+        $category = Category::where('type', $categoryType)->where('status', 1)->with(['getCuisine' => function ($query) {
+            return $query->with(['getBelongedProduct'])->where('status', 1)->get();
+        }])->get();
 
-        return view('menu.vegitarian' , compact('category'));
+        return view('menu.vegitarian', compact('category'));
     }
 }
