@@ -39,7 +39,6 @@ class ProductController extends Controller
         //     'category' => 'required|numeric|min:0|not_in:0',
         //     'cuisinename' => 'required'
         // ]);
-        // dd($request->category);
         Product::create(
             [
             'productName' => $request->productname,

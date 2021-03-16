@@ -30,8 +30,8 @@
                 {{ ($category[0]->type == 1)? 'Vegetarian' : 'Non Vegetarian' }}
              </div>
         </h4>
+        @foreach( $category as $key => $value )
         <div id="accordion">
-            @foreach( $category as $key => $value )
                 @if( $value->getCuisine->count() > 0 )
                     @foreach( $value->getCuisine as $k => $v )
                         <div class="card shadow">
@@ -83,8 +83,8 @@
                         return false;
                     @endphp
                 @endif
-            @endforeach
-        </div>
+            </div>
+         @endforeach
     @else
         <p>No Menu Available</p>
     @endif

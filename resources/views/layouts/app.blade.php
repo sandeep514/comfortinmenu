@@ -83,6 +83,7 @@
 </head>
 <body>
     
+
     
     <div id="category" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -106,13 +107,13 @@
                                 <ul class="producttype">
                                     <li>
                                        <label>
-                                            <input type="checkbox" {{ (in_array( '1' ,$catType )) ? 'checked' : ''  }} name="categorytype[]" class="form-control form-control-user" value="1">
+                                            <input type="checkbox"  name="categorytype[]" class="form-control form-control-user" value="1">
                                             <span style="line-height: 2;margin-left: 9px">Veg</span>
                                         </label>
                                     </li>
                                     <li>
                                         <label>
-                                            <input type="checkbox" {{ (in_array( '2' ,$catType )) ? 'checked' : ''  }} name="categorytype[]" class="form-control form-control-user" value="2"><span style="line-height: 2;margin-left: 9px">Non-Veg</span>
+                                            <input type="checkbox"  name="categorytype[]" class="form-control form-control-user" value="2"><span style="line-height: 2;margin-left: 9px">Non-Veg</span>
                                         </label>
                                     </li>
                                 </ul>
@@ -135,7 +136,7 @@
             </div>
         </div>
     </div>
-
+    
     <div id="cuisine" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -184,7 +185,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form class="user" method="POST" action="{{ route('save.new.cuisine') }}">
+                    <form class="user" method="POST" action="{{ route('save.new.product') }}" id="productform">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group row">
                             <div class="col-sm-12 mb-12 mb-sm-0">
@@ -244,7 +245,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-user btn-block checkvalidation">
+                        <button type="button" class="btn btn-primary btn-user btn-block checkvalidation">
                             Add new Product
                         </button>
                     </form>
@@ -378,15 +379,17 @@
                             // product details
                             if($('input[name=productname]').val() == ''){
                                 $('.productname.validationerror').show();                                
-                            }
-                            // if($('textarea[name=productdesc]').val() == ''){
-                            //     $('.productdesc.validationerror').show();
-                            // }
-                            if($('input[name=productRating]').val() == ''){
-                                $('.productRaiting.validationerror').show();
-                            }
-                            if($('input[name=productPrice]').val() == ''){
-                                $('.productPrice.validationerror').show();
+                            }else{
+                                if($('input[name=productRating]').val() == ''){
+                                    $('.productRaiting.validationerror').show();
+                                }else{
+                                    if($('input[name=productPrice]').val() == ''){
+                                        $('.productPrice.validationerror').show();
+                                    }else{
+                                        //submit here
+                                        $('#productform').submit();
+                                    }
+                                }    
                             }
                         }else{
                             $('.cuisine.validationerror').show();
